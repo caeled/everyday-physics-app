@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Everyday Physics</title>
+<style>
+  :root {
+    --cream: #f8f6ef;
+    --ink: #232733;
+    --ink-soft: #4c5265;
+    --teal: #0e7a63;
+    --line: #e3ddcd;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px 64px; }
+  header.hero { padding: 56px 0 8px; text-align: left; }
+  .eyebrow {
+    letter-spacing: 0.22em;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(40px, 6vw, 64px);
+    line-height: 1.05;
+    margin: 0 0 14px;
+    font-weight: 700;
+  }
+  h1 em { color: var(--teal); font-style: italic; }
+  .version {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 18px;
+  }
+  .lead { font-size: 19px; color: var(--ink-soft); max-width: 46em; margin: 0 0 18px; }
+  .tip { font-size: 14px; color: var(--ink-soft); max-width: 46em; }
+  .tip a { color: var(--teal); font-weight: 600; }
+  footer {
+    margin-top: 64px;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+    color: var(--ink-soft);
+    font-size: 14.5px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">About</p>
+    <h1>Everyday <em>Physics</em></h1>
+    <p class="version">Version 1.0.0</p>
+    <p class="lead">The physics room of Everyday Cool, standing on its own: a pool table
+      and a ballistics launcher that draw the rules on top of the play, a paper-plane
+      flight lab, a pendulum, a seesaw — and the Physics Game Table, a shelf of
+      full exhibits: black holes and gravitational waves, galaxy collisions, fission
+      chains, quantum tunneling, a magnetic bottle, a relativity flight, and more.</p>
+    <p class="lead">Every exhibit carries its lesson: the physics it runs, the math
+      underneath, and an honest box naming what it simplifies — each one checked by
+      running the shipped code against the claims on its page. The big exhibits were
+      built by Google Antigravity (Gemini) at Steven Powell's direction; the lessons
+      and audits are by Muse.</p>
+    <p class="tip">Links that point at the other Everyday Cool rooms — Nerd Heaven,
+      A Library, the Java Young Robot Builders shelf — open the live web version in
+      your browser, so the room travels on its own without losing its doors.</p>
+  </header>
+
+  <footer>
+    <p>Everyday Physics is one room of <strong>Everyday Cool</strong>, a collection of
+      workshops built by Steven Powell with his council of AI collaborators.
+      The whole collection lives at
+      <a href="https://caeled.github.io/everyday-cool/">caeled.github.io/everyday-cool</a>,
+      and this app's source is at
+      <a href="https://github.com/caeled/everyday-physics-app">github.com/caeled/everyday-physics-app</a>.</p>
+    <p><a href="index.html">← Back to the room</a></p>
+  </footer>
+
+</div>
+</body>
+</html>

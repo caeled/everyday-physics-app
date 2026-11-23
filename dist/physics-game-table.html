@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Physics Playground — Interactive Learning Portal</title>
+<style>
+  :root {
+    --bg: #080c15;
+    --panel: #111827;
+    --panel-hover: #172033;
+    --border: #24314a;
+    --text: #eef3fb;
+    --muted: #8ea1bd;
+    --accent: #38bdf8;
+    --violet: #a855f7;
+    --emerald: #34d399;
+    --amber: #f59e0b;
+    --rose: #f43f5e;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(56, 189, 248, 0.14), transparent 45%),
+      radial-gradient(circle at 85% 10%, rgba(168, 85, 247, 0.14), transparent 45%),
+      var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    line-height: 1.5;
+  }
+
+  .container {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 28px 20px 56px;
+  }
+
+  header.hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 18px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 22px;
+  }
+
+  .hero-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #0284c7, #7c3aed);
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    box-shadow: 0 8px 24px rgba(56, 189, 248, 0.3);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+
+  .subtitle {
+    margin: 3px 0 0;
+    color: var(--muted);
+    font-size: 13.5px;
+  }
+
+  .search-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 14px;
+    width: 290px;
+    max-width: 100%;
+  }
+
+  .search-wrap input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-size: 13px;
+    width: 100%;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+    align-items: center;
+  }
+
+  .filter-btn {
+    background: var(--panel);
+    color: #cbd5e1;
+    border: 1px solid var(--border);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .filter-btn.active {
+    background: rgba(56, 189, 248, 0.2);
+    border-color: var(--accent);
+    color: #7dd3fc;
+  }
+
+  .count-pill {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: ui-monospace, monospace;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    background: var(--panel-hover);
+    border-color: var(--accent);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 21px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .cat-tag {
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+  }
+
+  .card h2 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #f8fafc;
+  }
+
+  .card p {
+    margin: 0 0 12px;
+    font-size: 12.5px;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  .concepts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 12px;
+  }
+
+  .lesson-row {
+    margin: 2px 0 10px;
+  }
+
+  .lesson-link {
+    font-size: 12.5px;
+    color: #b4552d;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  .lesson-link:hover {
+    color: #8f3f1f;
+  }
+
+  .chip {
+    font-size: 10.5px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    padding: 2px 7px;
+    border-radius: 6px;
+    background: #0b1120;
+    border: 1px solid #24334d;
+    color: #93c5fd;
+  }
+
+  .card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid rgba(42, 55, 80, 0.65);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .card:hover .arrow {
+    transform: translateX(4px);
+  }
+  .arrow {
+    transition: transform 0.15s ease;
+  }
+
+  .hero-img {
+    flex-basis: 100%;
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-top: 4px;
+  }
+
+  footer a {
+    color: var(--accent);
+  }
+
+  footer {
+    margin-top: 34px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="hero">
+    <div class="hero-title">
+      <div class="logo">⚛️</div>
+      <div>
+        <h1>Interactive Physics Learning Portal</h1>
+        <p class="subtitle">Hands-on simulations &amp; arcade labs for mechanics, gravity, fluids, springs, and structural engineering</p>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <span>🔍</span>
+      <input type="text" id="searchInput" placeholder="Search games or physics concepts..." />
+    </div>
+    <img class="hero-img" src="gravity-well-illustration.jpg" alt="A gravity-well illustration: a glowing wireframe grid curving down into a deep funnel around a golden sphere, with faint equations around the edges" />
+  </header>
+
+  <nav class="filters" id="filterNav">
+    <button class="filter-btn active" data-cat="all">All Labs</button>
+    <button class="filter-btn" data-cat="rigid">Rigid-Body &amp; Destruction</button>
+    <button class="filter-btn" data-cat="orbital">Orbital, Gravity &amp; Vehicles</button>
+    <button class="filter-btn" data-cat="soft">Soft-Body, Springs &amp; Fluid</button>
+    <button class="filter-btn" data-cat="sports">Sports &amp; Arcade</button>
+    <span class="count-pill" id="countPill">14 Interactive Labs</span>
+  </nav>
+
+  <section class="grid" id="gameGrid"></section>
+
+  <footer>
+    Self-contained HTML5 Canvas &amp; SVG Physics Simulations · Built with sub-stepped solvers, live vector telemetry &amp; Web Audio
+    <nav style="margin-top: 8px;">
+      <a href="index.html">← Everyday Physics</a> · <a href="https://caeled.github.io/everyday-cool/projects/games-room/">The Games Room</a> · <a href="https://caeled.github.io/everyday-cool/index.html">Everyday Cool home</a>
+    </nav>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const CAT_STYLE = {
+    rigid:   { label: 'Rigid-Body & Destruction', bg: 'rgba(249,115,22,0.14)', border: 'rgba(249,115,22,0.4)', color: '#fdba74' },
+    orbital: { label: 'Orbital, Gravity & Vehicles', bg: 'rgba(168,85,247,0.14)', border: 'rgba(168,85,247,0.4)', color: '#d8b4fe' },
+    soft:    { label: 'Soft-Body, Springs & Fluid', bg: 'rgba(236,72,153,0.14)', border: 'rgba(236,72,153,0.4)', color: '#f9a8d4' },
+    sports:  { label: 'Sports & Arcade', bg: 'rgba(56,189,248,0.14)', border: 'rgba(56,189,248,0.4)', color: '#7dd3fc' }
+  };
+
+  const GAMES = [
+    {
+      title: 'Siege Slingshot Demolition',
+      file: 'siege-demolition.html',
+      icon: '💣',
+      cat: 'rigid',
+      desc: 'Launch iron boulders, cluster shots, blast bombs, and drill lances at destructible multi-material fortresses.',
+      concepts: ['Impulse p=mv', 'Fracture HP', 'Blast Shockwaves', 'Wind Ballistics']
+    },
+    {
+      title: 'Bridge Builder — Truss Stress Sim',
+      file: 'bridge-builder-truss.html',
+      icon: '🌉',
+      cat: 'rigid',
+      desc: 'Engineer Warren trusses and suspension bridges; watch real-time tension & compression heatmaps under vehicle loads.',
+      concepts: ['Axial Strain', 'Tension vs Compression', 'Strain-Limit Fracture', 'Truss Geometry']
+    },
+    {
+      title: 'Orbital Pinball',
+      file: 'orbital-pinball.html',
+      icon: '◎',
+      cat: 'rigid',
+      desc: 'Classic pinball flippers, slingshots, and wormhole multiball fused with central gravity wells, orbiting moons, and repel pulses.',
+      concepts: ['480Hz Substeps', 'Inverse-Square Gravity', 'Angular Flipper Velocity']
+    },
+    {
+      title: 'Orbital Slingshot — Gravity Golf',
+      file: 'orbital-gravity-golf.html',
+      icon: '🪐',
+      cat: 'orbital',
+      desc: 'Bend probe shots around orbiting binary stars, black holes, repulsor cores, and wormholes with a live RK4 trajectory preview.',
+      concepts: ['RK4 Trajectory Preview', 'Gravity Assist', 'Test-Particle Orbits']
+    },
+    {
+      title: 'Star Forge',
+      file: 'star-forge.html',
+      icon: '🌠',
+      cat: 'orbital',
+      desc: 'A true N-body sandbox: fling stars and planets with real pairwise gravity and watch the system you built survive — or tear itself apart. Its figure-eight preset held 400 periods in the audit. Built by Google Antigravity at Steven’s direction.',
+      concepts: ['Pairwise Gravity', 'Velocity Verlet', 'System Lifetime']
+    },
+    {
+      title: 'Murmuration',
+      file: 'murmuration.html',
+      icon: '🐦',
+      cat: 'soft',
+      desc: 'Three hundred and sixty birds, three local rules, no leader — shepherd the flock through the gates with nothing but wind from your hand. At the audited defaults the flock flies at 0.94 polarization. Built by Google Antigravity at Steven’s direction.',
+      concepts: ['Reynolds Boids', 'Local Perception', 'Emergence']
+    },
+    {
+      title: 'Ripple Tank',
+      file: 'ripple-tank.html',
+      icon: '🌊',
+      cat: 'soft',
+      desc: 'A real wave-equation bench: up to four drippers, barriers with gaps, and interference you can measure — diffraction fills 32% of the shadow a beam would leave black, and the fringes run 15-to-1. Built by Google Antigravity at Steven’s direction.',
+      concepts: ['Wave Equation', 'Superposition', 'Diffraction']
+    },
+    {
+      title: 'Prism Bench',
+      file: 'prism-bench.html',
+      lesson: 'prism-bench-lesson.html',
+      icon: '🔦',
+      cat: 'sports',
+      desc: 'A geometric-optics bench audited to floating-point noise: Snell and Fresnel exact, total internal reflection sharp at the critical angle, and a fiber that traps a ray through seven bounces. The rainbow fan runs wide — dispersion turned up about 1.5–3× over real glass, flint closest to nature. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Snell\'s Law', 'Fresnel Reflection', 'Total Internal Reflection', 'Chromatic Dispersion']
+    },
+    {
+      title: 'Cyclotron',
+      file: 'cyclotron.html',
+      lesson: 'cyclotron-lesson.html',
+      icon: '🧲',
+      cat: 'sports',
+      desc: 'A particle bench running a true Boris push: a proton flown for 200 gyroperiods in a pure magnetic field changed speed only in the fourteenth decimal place. Sort isotopes by mass-to-charge, and tune the RF to resonance — off tune, the energy simply refuses to climb. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Lorentz Force', 'Boris Push', 'Cyclotron Resonance', 'Mass Spectrometry']
+    },
+    {
+      title: 'Wind Tunnel',
+      file: 'wind-tunnel.html',
+      lesson: 'wind-tunnel-lesson.html',
+      icon: '🌬️',
+      cat: 'sports',
+      desc: 'A live stable-fluids tunnel whose lift and drag are integrated from its own pressure field — no coefficient table. The vortex street behind a cylinder sheds at Strouhal 0.169, and a wing’s stall break is real in the field at 12°, even where the badge stays dark. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Stable Fluids', 'Pressure Projection', 'Kármán Vortex Street', 'Stall']
+    },
+    {
+      title: 'Maxwell's Demon',
+      file: 'maxwells-demon.html',
+      lesson: 'maxwells-demon-lesson.html',
+      icon: '🌡️',
+      cat: 'sports',
+      desc: 'An elastic 2D gas whose histogram is the true 2D Maxwell–Boltzmann curve, and a trapdoor to sort it with: the demon built a real 378 K difference, which decayed on cue when the door was wedged open. The Landauer bill is honest arithmetic, charged on paper only. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Maxwell–Boltzmann Distribution', 'Elastic Collisions', 'Entropy', 'Landauer\'s Principle']
+    },
+    {
+      title: 'Chladni Lab',
+      file: 'chladni-lab.html',
+      lesson: 'chladni-lesson.html',
+      icon: '🎵',
+      cat: 'sports',
+      desc: 'Square and circular plates vibrating in their true eigenmodes: 5,000 sand grains settled 99.6% onto the analytic nodal lines of the excited mode, and nowhere at off-resonance control frequencies. The pitch’s “clamp” is a fingertip damper — and the page calls it one. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Eigenmodes', 'Standing Waves', 'Resonance', 'Bessel Functions']
+    },
+    {
+      title: 'Butterfly — Double Pendulum',
+      file: 'butterfly-pendulum.html',
+      lesson: 'butterfly-pendulum-lesson.html',
+      icon: '🦋',
+      cat: 'sports',
+      desc: 'The true Lagrangian double pendulum under RK4: energy holds to one part in a hundred million, and twins released 0.0001° apart double their separation every 0.32 seconds — a fitted Lyapunov exponent of about 2.15 per second. At gentle angles the same build honestly refuses to diverge. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Double Pendulum', 'Sensitive Dependence', 'Lyapunov Exponent', 'RK4 Integration']
+    },
+    {
+      title: 'Turing Garden',
+      file: 'turing-garden.html',
+      lesson: 'turing-garden-lesson.html',
+      icon: '🌱',
+      cat: 'sports',
+      desc: 'The exact Gray–Scott equations, and all six named patterns grow at their printed settings — mitosis dividing 4 droplets into 165, leopard spots the most exact label of the set. The folklore map’s famous mitosis address is provably extinct in this solver; the garden’s own map is the true one. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Gray–Scott Reaction-Diffusion', 'Morphogenesis', 'Activator–Inhibitor', 'Emergence']
+    },
+    {
+      title: 'Get to Orbit',
+      file: 'get-to-orbit.html',
+      lesson: 'get-to-orbit-lesson.html',
+      icon: '🚀',
+      cat: 'orbital',
+      desc: 'Steven’s own commission: dial mass, engine, angle, latitude and hour, and launch for orbit — or for a Lagrange point — from Earth, the Moon, Venus or Saturn. The wells audit within 0.3% of the real μ (Saturn runs 6.7% light), and L1 drifts like the real unstable perch. Built by Google Antigravity at Steven’s direction.',
+      concepts: ['Tsiolkovsky Δv', 'Spin Boost', 'Lagrange Points']
+    },
+    {
+      title: 'Event Horizon — Black Hole Orbit Lab',
+      file: 'black-hole-orbit.html',
+      lesson: 'black-hole-orbit-lesson.html',
+      icon: '🕳️',
+      cat: 'orbital',
+      desc: 'Fly a craft around a black hole whose orbits are integrated from the exact Schwarzschild orbit equation — the audit matched its precession to the exact solution to the digit (49.40° against 49.41°), past the textbook formula, and found the ISCO a real knife edge at 3 Schwarzschild radii. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Schwarzschild Geodesics', 'Apsidal Precession', 'ISCO & Photon Sphere']
+    },
+    {
+      title: 'Quantum Shells — Atom & Bonding Lab',
+      file: 'atom-shells.html',
+      lesson: 'atom-shells-lesson.html',
+      icon: '⚛️',
+      cat: 'sports',
+      desc: 'All 118 elements with configurations the audit could not fault — the Madelung filling order and all twenty exception elements exactly right — plus a bonding bench whose hard edges the lesson names (ionic transfer capped at two electrons, a noble-gas veto that KrF₂ breaks in reality). Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Electron Configuration', 'Aufbau & Exceptions', 'Ionic & Covalent Bonding']
+    },
+    {
+      title: 'Chirp — Binary Black Hole Merger & Gravitational Waves',
+      file: 'gw-inspiral.html',
+      lesson: 'gw-inspiral-lesson.html',
+      icon: '〰️',
+      cat: 'orbital',
+      desc: 'Merge two black holes and hear the chirp climb. The panel’s fits are exact — chirp mass to the digit, Peters exponents on the line — but the exhibit runs three clocks at three rates, and only the audio follows the physical frequency. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Gravitational Waves', 'Chirp Mass', 'Peters Inspiral']
+    },
+    {
+      title: 'Tidal Arms — Galaxy Collision & Spiral Dynamics',
+      file: 'galaxy-collision.html',
+      lesson: 'galaxy-collision-lesson.html',
+      icon: '🌌',
+      cat: 'orbital',
+      desc: 'Crash two galaxies and watch tidal tails grow — genuinely emergent, star by star, with no tail code anywhere in the file. The audit also found the limit of the sandbox: the cores circle forever, and the coalescence the page offers never fires in any preset. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Tidal Tails', 'Test-Particle Gravity', 'Dark-Matter Halo']
+    },
+    {
+      title: 'Lattice — Crystal Phonons, Defects & Phase Melting',
+      file: 'crystal-phonons.html',
+      lesson: 'crystal-phonons-lesson.html',
+      icon: '🔷',
+      cat: 'sports',
+      desc: 'Heat, shear and dope a Lennard-Jones crystal whose pair force matches the analytic formula to all printed digits and whose melting is real, unscripted physics. The lesson names the three HUD numbers that point at slightly different quantities than their labels — including a defect counter that cannot see a vacancy. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Lennard-Jones Forces', 'Phonons & Dispersion', 'Melting & Defects']
+    },
+    {
+      title: 'Criticality — Nuclear Fission & Chain Reaction Lab',
+      file: 'fission-chain.html',
+      lesson: 'fission-chain-lesson.html',
+      icon: '☢️',
+      cat: 'sports',
+      desc: 'Run a reactor core whose neutron economy is honest underneath — neutrons per fission measured 2.45 against nature’s 2.43, rods that absorb by real geometry, plutonium breeding and xenon burnout that genuinely run. The displayed k, though, is a blend: it reads about 0.4 where the true ledger says 0.96, and the lesson shows all three numbers side by side. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Chain Reaction', 'k Effective', 'Breeding & Xenon']
+    },
+    {
+      title: 'Curie Point — 2D Ising Ferromagnet & Phase Transitions',
+      file: 'ising-magnet.html',
+      lesson: 'ising-magnet-lesson.html',
+      icon: '🌡️',
+      cat: 'sports',
+      desc: 'Heat a magnet through its Curie point and watch order dissolve. The audit located the transition from the simulation’s own fluctuation peaks and found Onsager’s exact answer: heat-capacity peak at 2.269, magnetisation tracking Yang’s solution to the third decimal, hysteresis that is real sweep-rate dynamics. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Ising Model', 'Onsager’s Exact Tc', 'Hysteresis']
+    },
+    {
+      title: 'Half-Life — Radioactive Decay Chains & Cloud Chamber',
+      file: 'cloud-chamber.html',
+      lesson: 'cloud-chamber-lesson.html',
+      icon: '💨',
+      cat: 'sports',
+      desc: 'Watch decay chains fire in a cloud chamber whose statistics are exact: a 120,000-nucleus run reproduced the stated half-life to the second decimal with a truly memoryless hazard, and the chain matches an independent Bateman integration to 0.38%. The bends are named too — half-life compression means secular equilibrium never forms, and the beta spectrum leaks past its own endpoint. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Exponential Decay', 'Bateman Chains', 'Track Curvature']
+    },
+    {
+      title: 'Wavefunction — Quantum Tunneling & Double-Slit Lab',
+      file: 'quantum-tunneling.html',
+      lesson: 'quantum-tunneling-lesson.html',
+      icon: '∿',
+      cat: 'sports',
+      desc: 'Fire a wave packet at a barrier in a genuine split-step Schrödinger solver — unitary to twelve decimals, fringes exact for its lattice, and tunneling that beats the WKB estimate the way real quantum mechanics does. The lesson also names what the observer toggle really does to the wavefunction. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['TDSE Solver', 'Quantum Tunneling', 'Double-Slit Interference']
+    },
+    {
+      title: 'Magnetosphere — Magnetic Bottle, Aurora & Tokamak Plasma',
+      file: 'magnetic-bottle.html',
+      lesson: 'magnetic-bottle-lesson.html',
+      icon: '🧲',
+      cat: 'sports',
+      desc: 'Trap plasma in a magnetic mirror whose Boris pusher holds Cyclotron’s standard and whose loss cone lands within half a degree of theory — while the bottle’s gyration is an alias, the tokamak’s displayed q is the slider restated, and the bounce counter never fires. A split verdict, stated precisely. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Boris Push', 'Mirror Loss Cone', 'Tokamak q']
+    },
+    {
+      title: 'Lorentz — Special Relativity Flight',
+      file: 'relativity-warp.html',
+      lesson: 'relativity-warp-lesson.html',
+      icon: '🚀',
+      cat: 'orbital',
+      desc: 'Fly at up to 0.998c in the most internally consistent exhibit in the wave: one gamma function drives aberration, Doppler, contraction, Terrell rotation and the clocks, and the twin paradox is computed end-to-end, landing within 0.04% of the exact solution. The bends are presentation — a D³ label over a log tone map among them. Built by Google Antigravity (Gemini) at Steven Powell’s direction; lesson and audit by Muse.',
+      concepts: ['Lorentz Factor', 'Aberration & Doppler', 'Twin Paradox']
+    },
+    {
+      title: 'Lunar Lander — Thruster Cave',
+      file: 'lunar-lander-cave.html',
+      icon: '🚀',
+      cat: 'orbital',
+      desc: 'Navigate narrow alien caverns and land safely while managing real propellant mass depletion, RCS torque, and cryo-geysers.',
+      concepts: ['Dynamic Mass & TWR', 'RCS Torque', 'SAS Damping']
+    },
+    {
+      title: 'Docking — Orbital Rendezvous',
+      file: 'docking.html',
+      icon: '🛰️',
+      cat: 'orbital',
+      desc: 'Rendezvous with a station under real point-mass gravity — where burning straight at your target bends your orbit and drifts you away. Three missions on a fuel budget: phasing, radial offset, and the real thing.',
+      concepts: ['Orbital Phasing', 'Relative Motion', 'Δv Budget']
+    },
+    {
+      title: '2D Hill-Climb — Suspension Trials',
+      file: 'hill-climb-suspension.html',
+      icon: '🏎️',
+      cat: 'orbital',
+      desc: 'Drive dune buggies, monster trucks, and moon rovers with live Hooke’s-law spring-damper shocks, weight transfer, and flips.',
+      concepts: ['Hooke’s Law (F=-kx-cv)', 'Weight Transfer', 'Angular Torque']
+    },
+    {
+      title: 'Jelly Soft-Body Platformer',
+      file: 'jelly-softbody-platformer.html',
+      icon: '🫧',
+      cat: 'soft',
+      desc: 'Squish, deflate through vents, and wall-climb using a 20-node mass-spring blob inflated by an area-pressure model.',
+      concepts: ['Area-Pressure Model', 'Mass-Spring Mesh', 'Defended Area']
+    },
+    {
+      title: 'Falling Sand — Cellular Physics Lab',
+      file: 'falling-sand-sandbox.html',
+      icon: '⏳',
+      cat: 'soft',
+      desc: 'Experiment with 14 interactive elements including sand, oil, water, lava, acid, steam, plants, ice, metal, and electricity.',
+      concepts: ['Density Stratification', 'Phase Changes', 'Combustion & Circuits']
+    },
+    {
+      title: 'Pendulum Grapple Swinger',
+      file: 'pendulum-grapple-swinger.html',
+      icon: '🪝',
+      cat: 'soft',
+      desc: 'Swing across aerial chasms with rope constraints, live KE/PE energy bars, and angular-momentum boosts by reeling in mid-arc.',
+      concepts: ['Conservation of Energy', 'Angular Momentum L=mrv', 'Radial Tension']
+    },
+    {
+      title: 'Marble Run — Rube Goldberg Builder',
+      file: 'marble-run.html',
+      icon: '🔮',
+      cat: 'soft',
+      desc: 'Construct musical chain-reaction machines with ramps, trampolines, conveyors, seesaws, pinwheels, dominoes, and wind fans.',
+      concepts: ['Rigid-Body Seesaws', 'Domino Cascades', 'Airflow Forces']
+    },
+    {
+      title: 'Air Hockey & Curl-Shot Shuffleboard',
+      file: 'air-hockey-curl.html',
+      icon: '🏒',
+      cat: 'sports',
+      desc: 'Play high-speed Air Hockey against adaptive AI or curve curling stones across friction zones using Magnus spin.',
+      concepts: ['Magnus Spin Effect', 'Restitution (e)', 'Friction Zones']
+    },
+    {
+      title: '2D Ragdoll Archery Duel',
+      file: 'ragdoll-archery-duel.html',
+      icon: '🏹',
+      cat: 'sports',
+      desc: 'Articulated Verlet ragdoll archers duel across castle towers and cliffs with wind-compensated trajectories and limb knockback.',
+      concepts: ['Verlet Constraints', 'Projectile Windage', 'Momentum Impulse']
+    },
+    {
+      title: 'SVG Pool Table — Angles & Force Lab',
+      file: 'pool-table-physics.html',
+      icon: '🎱',
+      cat: 'sports',
+      desc: 'Precision billiards physics lab visualizing cut angles, tangent lines, elastic collisions, and cushion rebounds.',
+      concepts: ['Near-Elastic Collisions', 'Tangent Angles', 'Force Vectors']
+    },
+    {
+      title: 'Tensor-Tris',
+      file: 'https://caeled.github.io/everyday-cool/projects/games-room/tensor-tris.html',
+      icon: '🧩',
+      cat: 'sports',
+      desc: 'Interactive spatial reasoning and physics-inspired puzzle arcade experience.',
+      concepts: ['Spatial Geometry', 'Transformations', 'Arcade Mechanics']
+    },
+    {
+      title: 'Laser & Mirrors',
+      file: 'https://caeled.github.io/everyday-cool/projects/everyday-light/laser-mirrors.html',
+      icon: '🪞',
+      cat: 'sports',
+      desc: 'Rotate 45° mirrors to bounce a laser beam onto every target across seven puzzles — the Everyday Light room’s reflection game, visiting the Table.',
+      concepts: ['Angle In = Angle Out', 'Specular Reflection', '90° Beam Turns']
+    },
+    {
+      title: 'Tune the String',
+      file: 'https://caeled.github.io/everyday-cool/projects/everyday-sound/tune-the-string.html',
+      icon: '🎻',
+      cat: 'sports',
+      desc: 'Match the target note with length and tension on the real string formula — and win by killing the beating wobble, the tuner’s own method. The Everyday Sound room’s game, visiting the Table.',
+      concepts: ['String Frequency f = (1/2L)·√(T/μ)', 'Beating', 'Cents']
+    },
+    {
+      title: 'Stage It',
+      file: 'stage-it.html',
+      icon: '🔥',
+      cat: 'orbital',
+      desc: 'Split the fuel between two stages, drop the empty one on time, and make orbit — the rocket equation itself decides which splits can fly, and the tight level’s single-stage version provably can’t.',
+      concepts: ['Tsiolkovsky Δv', 'Staging', 'Gravity Losses']
+    },
+    {
+      title: 'Ballast',
+      file: 'ballast.html',
+      icon: '🌊',
+      cat: 'soft',
+      desc: 'Conn a submarine by buoyancy alone — flood and blow the tanks, find the knife-edge of neutral, dive to the wreck above the crush line, and cross a density layer that lifts you without a hand on a valve.',
+      concepts: ['Archimedes’ Principle', 'Neutral Buoyancy', 'Density Layers']
+    },
+    {
+      title: 'Shake Table',
+      file: 'https://caeled.github.io/everyday-cool/projects/everyday-engineering/shake-table.html',
+      icon: '🏗️',
+      cat: 'rigid',
+      desc: 'Build the tower, brace it if you can afford to, then the quake comes — and the killer is resonance, your tower’s own wobble matching the quake’s rhythm. The Everyday Engineering room’s game, visiting the Table.',
+      concepts: ['Resonance', 'Natural Frequency', 'Damping']
+    },
+    {
+      title: 'Don’t Cook the LED',
+      file: 'https://caeled.github.io/everyday-cool/projects/everyday-electronics/dont-cook-the-led.html',
+      icon: '💡',
+      cat: 'sports',
+      desc: 'Pick the resistor that lights the LED without cooking it — Ohm’s law with real stakes across seven circuits, including the level where the right value in the wrong wattage still burns. The Everyday Electronics room’s game, visiting the Table.',
+      concepts: ['Ohm’s Law I = (Vs − Vf)/R', 'Resistor Power P = I²R', 'E12 Values']
+    },
+    {
+      title: 'Wire the Adder',
+      file: 'https://caeled.github.io/everyday-cool/projects/everyday-computing/wire-the-adder.html',
+      icon: '🧮',
+      cat: 'sports',
+      desc: 'Wire gates into circuits that actually add — from the one gate that knows XOR up through a half adder, a full adder, and a two-bit adder, graded live against the full truth table. The Everyday Computing room’s game, visiting the Table.',
+      concepts: ['Logic Gates', 'Half & Full Adders', 'Truth Tables']
+    },
+    {
+      title: 'Find the Fault',
+      file: 'https://caeled.github.io/everyday-cool/projects/nerd-heaven-tech-support/find-the-fault.html',
+      icon: '🔍',
+      cat: 'sports',
+      desc: 'Four dead machines, six suspects each, and a menu of tests that cost points — diagnose by the pattern of results, and beware the odd result that looks like it belongs to another branch. Nerd Heaven’s game, visiting the Table.',
+      concepts: ['Differential Diagnosis', 'Information Gain', 'Pattern Over Gates']
+    },
+    {
+      title: 'Shelf It!',
+      file: 'https://caeled.github.io/everyday-cool/projects/a-library/dewey-game.html',
+      icon: '📚',
+      cat: 'sports',
+      desc: 'Here’s a book — which Dewey section does it shelve in? Here’s a number — what lives there? The classification game from A Library, visiting the Table.',
+      concepts: ['Dewey Decimal', 'Classification', 'Call Numbers']
+    },
+    {
+      title: 'Go Thataway',
+      file: 'https://caeled.github.io/everyday-cool/projects/map-room/go-thataway.html',
+      icon: '🧭',
+      cat: 'sports',
+      desc: 'Navigate by bearing and pace count across five fields where your stride honestly veers — walk the briefed bearing open-loop and land wide, or spend a fix off a landmark and correct your way in. The Map Room’s game, visiting the Table.',
+      concepts: ['Dead Reckoning', 'Bearings & Paces', 'Fixes & Handrails']
+    },
+    {
+      title: 'Balance It',
+      file: 'https://caeled.github.io/everyday-cool/projects/everyday-chemistry/balance-it.html',
+      icon: '⚖️',
+      cat: 'sports',
+      desc: 'Build molecules atom by atom, then balance equations against a live atom ledger — and a balanced-but-reducible answer gets sent back to be halved. The Everyday Chemistry room’s game, visiting the Table.',
+      concepts: ['Conservation of Mass', 'Formulas & Coefficients', 'Smallest Whole Numbers']
+    },
+    {
+      title: 'Pass It On',
+      file: 'https://caeled.github.io/everyday-cool/projects/secret-squares/pass-it-on.html',
+      icon: '📨',
+      cat: 'sports',
+      desc: 'Send a message down a channel that corrupts it, and climb from naked digits to a check digit that detects, a parity grid that locates and repairs — and the honest wall where two flips beat the grid. The Secret Squares game, visiting the Table.',
+      concepts: ['Check Digits', 'Parity', 'Detection vs Correction']
+    },
+    {
+      title: 'The Printer Did It',
+      file: 'https://caeled.github.io/everyday-cool/projects/nerd-heaven-tech-support/the-printer-did-it.html',
+      icon: '🖨️',
+      cat: 'sports',
+      desc: 'A machine died at midnight, and six suspects are plugged in around the house. Suggest, read who can disprove you, and keep the notebook — a pass is three facts and the ledger never lies. Nerd Heaven’s deduction board, visiting the Table.',
+      concepts: ['Deduction', 'Elimination', 'The Notebook Ledger']
+    },
+    {
+      title: 'Mastermind',
+      file: 'https://caeled.github.io/everyday-cool/projects/secret-squares/mastermind.html',
+      icon: '🎯',
+      cat: 'sports',
+      desc: 'Break a four-peg code in ten guesses while the counter beside the board counts the codes still possible — 1,296 at the deal, halved by every answer until the code is forced. The Secret Squares game, visiting the Table.',
+      concepts: ['Codes Still Possible', 'Feedback Pegs', 'Corrected by Halves']
+    },
+    {
+      title: 'Battleship',
+      file: 'https://caeled.github.io/everyday-cool/projects/map-room/battleship.html',
+      icon: '🚢',
+      cat: 'sports',
+      desc: 'Hunt a hidden fleet on a 10×10 chart where the checkerboard pattern searches half the ocean — every ship afloat must cover a black square. The Map Room’s game, visiting the Table.',
+      concepts: ['Parity Search', 'Hunt & Target', 'A Miss Is Information']
+    },
+    {
+      title: 'Mines',
+      file: 'https://caeled.github.io/everyday-cool/projects/numbers-in-the-wild/mines.html',
+      icon: '💣',
+      cat: 'sports',
+      desc: 'The Windows classic at three sizes — Easy, Hard, Epic — where every number is an exact census of its eight neighbours, and the board honestly names the guesses no logic can settle. The Numbers in the Wild game, visiting the Table.',
+      concepts: ['Neighbour Census', 'Deduction', 'The Forced Guess']
+    },
+    {
+      title: 'Route It',
+      file: 'https://caeled.github.io/everyday-cool/projects/packet-playground/route-it.html',
+      icon: '📦',
+      cat: 'sports',
+      desc: 'Walk a packet across a small network one next hop at a time — follow the table, pick the cheaper of two roads, re-route when a link drops, escape a stale-table loop before the TTL runs out, and sort a /24 street’s local doors from its traps. The Packet Playground’s game, visiting the Table.',
+      concepts: ['Next-Hop Routing', 'TTL & Loops', 'The /24 Window']
+    },
+    {
+      title: 'The Boring Bet Wins',
+      file: 'https://caeled.github.io/everyday-cool/projects/decisions-everywhere/the-boring-bet-wins.html',
+      icon: '🪙',
+      cat: 'sports',
+      desc: 'Three doors with their expected values printed right on them — a small honest edge, a fair coin, and a flashy wheel that bleeds — and a Long Run simulator where the flashy line ruins on schedule. The Decisions Everywhere game, visiting the Table.',
+      concepts: ['Expected Value', 'Variance', 'Law of Large Numbers']
+    },
+    {
+      title: 'Catch the Pass',
+      file: 'https://caeled.github.io/everyday-cool/projects/satellite-watch/catch-the-pass.html',
+      icon: '🛰️',
+      cat: 'sports',
+      desc: 'Call a satellite’s pass before it flies — how high it will peak, and when — then watch the umpire rule: inside the line, CALLED IT FAIR; wide of it, foul by the exact degrees. The Satellite Watch game, visiting the Table.',
+      concepts: ['Pass Prediction', 'Angular Error', 'Peak Elevation']
+    },
+    {
+      title: 'Anchors',
+      file: 'https://caeled.github.io/everyday-cool/projects/everyday-measure/anchors.html',
+      icon: '⚓',
+      cat: 'sports',
+      desc: 'Estimate real quantities — a mouse, a mug, an elephant, the Moon — against the sizes your hands already know, scored by the factor you missed by, with every truth read back in anchors. The Everyday Measure room’s game, visiting the Table.',
+      concepts: ['Fermi Estimation', 'Ratio Scoring', 'Orders of Magnitude']
+    },
+    {
+      title: 'Corrected by Halves',
+      file: 'https://caeled.github.io/everyday-cool/projects/nerd-heaven-tech-support/corrected-by-halves.html',
+      icon: '½',
+      cat: 'sports',
+      desc: 'Ten halving operations in one console — bisect a faulty cable bus, a checksum tree, a Hamming matrix, a commit history, a subnet — built by Gemini Neon at Steven Powell’s direction and integrated unchanged. Nerd Heaven’s guest suite, visiting the Table.',
+      concepts: ['Binary Search', 'Checksums & Parity', 'Divide and Conquer']
+    }
+    {
+      title: 'Yahtzee',
+      file: 'https://caeled.github.io/everyday-cool/projects/numbers-in-the-wild/yahtzee.html',
+      lesson: 'https://caeled.github.io/everyday-cool/projects/numbers-in-the-wild/yahtzee-lesson.html',
+      icon: '🎲',
+      cat: 'sports',
+      desc: 'The dice-cup classic with every probability counted live by exact enumeration — 4.60% for a one-turn Yahtzee, proven. Guest of Numbers in the Wild.',
+      concepts: ['Exact Enumeration', 'Expected Value', 'Conditional Probability']
+    }
+    {
+      title: 'Boggle',
+      file: 'https://caeled.github.io/everyday-cool/projects/everyday-language/boggle.html',
+      lesson: 'https://caeled.github.io/everyday-cool/projects/everyday-language/boggle-lesson.html',
+      icon: '🔤',
+      cat: 'sports',
+      desc: 'The classic dice tray with the real 172,727-word tournament dictionary embedded — audited byte for byte. Guest of Everyday Language.',
+      concepts: ['Letter Frequency', 'Depth-First Search', 'The Dictionary Decides']
+    }
+    {
+      title: 'Deep Zoom',
+      file: 'https://caeled.github.io/everyday-cool/projects/everyday-math/deep-zoom.html',
+      lesson: 'https://caeled.github.io/everyday-cool/projects/everyday-math/deep-zoom-lesson.html',
+      icon: '🌀',
+      cat: 'sports',
+      desc: 'Fall into the Mandelbrot set past a trillion-fold magnification on a verified perturbation engine. Guest of Everyday Math.',
+      concepts: ['Escape-Time Iteration', 'Perturbation Theory', 'Floating-Point Limits']
+    }
+  ];
+
+  let activeCat = 'all';
+  let query = '';
+
+  function render() {
+    const grid = document.getElementById('gameGrid');
+    const q = query.trim().toLowerCase();
+    const filtered = GAMES.filter(g => {
+      const catOk = activeCat === 'all' || g.cat === activeCat;
+      const qOk = !q || g.title.toLowerCase().includes(q) || g.desc.toLowerCase().includes(q) || g.concepts.some(c => c.toLowerCase().includes(q));
+      return catOk && qOk;
+    });
+
+    document.getElementById('countPill').textContent = `${filtered.length} of ${GAMES.length} Labs`;
+    grid.innerHTML = '';
+
+    for (const g of filtered) {
+      const cs = CAT_STYLE[g.cat];
+      const a = document.createElement('a');
+      a.className = 'card';
+      a.href = g.file;
+      a.innerHTML = `
+        <div class="card-top">
+          <div class="icon-box" style="background:${cs.bg};border-color:${cs.border};">${g.icon}</div>
+          <span class="cat-tag" style="background:${cs.bg};border-color:${cs.border};color:${cs.color};">${cs.label}</span>
+        </div>
+        <h2>${g.title}</h2>
+        <p>${g.desc}</p>
+        <div class="concepts">${g.concepts.map(c => `<span class="chip">${c}</span>`).join('')}</div>
+        <div class="lesson-row"><span class="lesson-link" role="link" title="The back door: the physics, the math, and how it is built" onclick="event.preventDefault();event.stopPropagation();window.location.href='${g.file.replace('.html', '-lesson.html')}';">📖 The back door — read the lesson</span></div>
+        <div class="card-foot">
+          <span>Launch Simulation</span>
+          <span class="arrow">→</span>
+        </div>
+      `;
+      grid.appendChild(a);
+    }
+  }
+
+  document.querySelectorAll('#filterNav .filter-btn').forEach(btn => {
+    btn.onclick = () => {
+      activeCat = btn.dataset.cat;
+      document.querySelectorAll('#filterNav .filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+      render();
+    };
+  });
+
+  document.getElementById('searchInput').oninput = (e) => {
+    query = e.target.value;
+    render();
+  };
+
+  render();
+})();
+</script>
+</body>
+</html>
