@@ -4,7 +4,8 @@ live Everyday Cool URLs, so the standalone physics room keeps its
 doors to the other rooms.
 
 Only Muse-authored files are touched: the room index, the Physics
-Game Table, and the lesson pages. Guest game files ship byte-for-byte
+Game Table, the lesson pages, and resonance-lab.html (a Muse original
+exhibit with cross-room links). Guest game files ship byte-for-byte
 and contain no cross-room links (verified at first sync); if one ever
 does, it stays as-is and this script does not touch it.
 
@@ -21,7 +22,7 @@ import os
 BASE = "https://caeled.github.io/everyday-cool/"
 DIST = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), "..", "dist")
 
-files = ["index.html", "physics-game-table.html", "README.md"]
+files = ["index.html", "physics-game-table.html", "README.md", "resonance-lab.html"]
 files += sorted(os.path.basename(p) for p in glob.glob(os.path.join(DIST, "*-lesson.html")))
 
 total = 0
