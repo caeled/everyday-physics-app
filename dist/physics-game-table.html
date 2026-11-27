@@ -279,6 +279,11 @@
     font-size: 12px;
     color: var(--muted);
   }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
 </style>
 </head>
 <body>
@@ -329,6 +334,24 @@
   };
 
   const GAMES = [
+    {
+      title: 'SpacetimeLab',
+      file: 'spacetimelab.html',
+      lesson: 'spacetimelab-lesson.html',
+      icon: '🕳️',
+      cat: 'orbital',
+      desc: 'The science division\'s gravitational-wave workbench: waves OF space bending around mass (Shapiro delay), Kerr frame-dragging with a river model whose wake flips sign with the spin — measured — the photon sphere and capture threshold, ringdown, and lensed echoes for LIGO, Virgo and LISA. The audit found its arithmetic exact and its Kerr behaviour real, but its Arago chapter failed as presented: at λ ≈ r_s the axis behind the hole stays dark in the sim\'s own view, and the brightening is an extended caustic at λ ≳ 1.7 r_s — twenty-one sanctioned copy fixes now say so on the page, alongside corrected detector wavelengths and the Kerr spin split. Built by Google Antigravity; audit and lesson by Muse.',
+      concepts: ['Gravitational Waves', 'Shapiro Delay', 'Frame-Dragging', 'Photon Sphere', 'Wave Optics']
+    },
+    {
+      title: 'LuxLab',
+      file: 'luxlab.html',
+      lesson: 'luxlab-lesson.html',
+      icon: '🪞',
+      cat: 'sports',
+      desc: 'The science division\'s eleven-chapter optics workbench: reflection as oscillating electrons, umbra geometry, Fresnel diffraction and the Arago spot, Brewster, TIR and evanescent waves, thin films and Fabry–Pérot cavities, Feynman\'s QED mirror, caustics, BRDF and why gold is yellow, and ionospheric radio skipping. Two independent audits found every engine exact — Fresnel to 0.1 pt, QED phasor sums to ±0.01, shadow geometry to the lightmap pixel — and seventeen presentation fixes were applied under Steven Powell\'s sanction, hash chain in the lesson. Built by Google Antigravity; audits and lesson by Muse.',
+      concepts: ['Reflection', 'Fresnel Equations', 'Diffraction', 'Thin-Film Interference', 'QED', 'Ionosphere']
+    },
     {
       title: 'Siege Slingshot Demolition',
       file: 'siege-demolition.html',
@@ -413,7 +436,7 @@
       concepts: ['Stable Fluids', 'Pressure Projection', 'Kármán Vortex Street', 'Stall']
     },
     {
-      title: 'Maxwell's Demon',
+      title: 'Maxwell’s Demon',
       file: 'maxwells-demon.html',
       lesson: 'maxwells-demon-lesson.html',
       icon: '🌡️',
@@ -686,6 +709,15 @@
       concepts: ['Natural Frequency f₀', 'Q & Bandwidth', 'Barton’s Pendulums', 'Beats & RLC Tuning']
     },
     {
+      title: 'Rocketry & Thrust — the Physics of Rockets',
+      file: 'rocketry-thrust.html',
+      lesson: 'rocketry-thrust-lesson.html',
+      icon: '🚀',
+      cat: 'orbital',
+      desc: 'Nine benches on one idea — throw mass backwards: a brick cart that conserves momentum, the thrust equation F = ṁ·vₑ + (pₑ − pₐ)·Aₑ term by term, a nozzle that shows over- and under-expansion, sourced Isp for real engines, the rocket equation with staging, a fixed-step liftoff that books gravity and drag losses, a Δv budget to the Moon and Mars, model-rocket motor codes with the NAR Safety Code, and an orbit you throw yourself. Built by Grok Bot at Steven Powell’s direction; its sixteen proofs run live on the page.',
+      concepts: ['Thrust Equation', 'Specific Impulse', 'Rocket Equation & Staging', 'Nozzles & Δv Budget']
+    },
+    {
       title: 'Kinematics — Robotic Arm IK',
       file: 'robot-arm-ik.html',
       lesson: 'robot-arm-ik-lesson.html',
@@ -892,7 +924,7 @@
       cat: 'sports',
       desc: 'Ten halving operations in one console — bisect a faulty cable bus, a checksum tree, a Hamming matrix, a commit history, a subnet — built by Gemini Neon at Steven Powell’s direction and integrated unchanged. Nerd Heaven’s guest suite, visiting the Table.',
       concepts: ['Binary Search', 'Checksums & Parity', 'Divide and Conquer']
-    }
+    },
     {
       title: 'Yahtzee',
       file: 'https://caeled.github.io/everyday-cool/projects/numbers-in-the-wild/yahtzee.html',
@@ -901,7 +933,7 @@
       cat: 'sports',
       desc: 'The dice-cup classic with every probability counted live by exact enumeration — 4.60% for a one-turn Yahtzee, proven. Guest of Numbers in the Wild.',
       concepts: ['Exact Enumeration', 'Expected Value', 'Conditional Probability']
-    }
+    },
     {
       title: 'Boggle',
       file: 'https://caeled.github.io/everyday-cool/projects/everyday-language/boggle.html',
@@ -910,7 +942,7 @@
       cat: 'sports',
       desc: 'The classic dice tray with the real 172,727-word tournament dictionary embedded — audited byte for byte. Guest of Everyday Language.',
       concepts: ['Letter Frequency', 'Depth-First Search', 'The Dictionary Decides']
-    }
+    },
     {
       title: 'Deep Zoom',
       file: 'https://caeled.github.io/everyday-cool/projects/everyday-math/deep-zoom.html',
